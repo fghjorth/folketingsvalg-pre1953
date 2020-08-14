@@ -9,7 +9,7 @@ lettervec <-
 
 getyrres <- function(year,lettervec){
   
-  imgx <- image_read(paste0("images/",1939,".jpg"))
+  imgx <- image_read(paste0("images/",year,".jpg"))
   
   ocrx <- image_ocr(imgx)
   
@@ -35,7 +35,7 @@ getyrres <- function(year,lettervec){
     filter(!is.na(partyvotes)) %>% 
     mutate(letter=lettervec)
   
-  ocrxtib_wide <- ocrxtib %>% 
+  ocrxtib_wide <- ocrxtib2 %>% 
     dplyr::select(partyvotes,letter) %>% 
     pivot_wider(names_from = letter,values_from=partyvotes,names_prefix="party_") %>% 
     mutate(total_valid=validvotes,
@@ -47,3 +47,4 @@ getyrres <- function(year,lettervec){
 }
 
 yr1939 <- getyrres(1939,c("s","rv","k","v","rfb","bp","dkp","n","ds","sp","ns" ))
+yr1943 <- getyrres(1943,c("s","rv","k","v","rfb","bp","n","ds"))
