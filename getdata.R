@@ -48,3 +48,10 @@ getyrres <- function(year,lettervec){
 
 yr1939 <- getyrres(1939,c("s","rv","k","v","rfb","bp","dkp","n","ds","sp","ns" ))
 yr1943 <- getyrres(1943,c("s","rv","k","v","rfb","bp","n","ds"))
+yr1945 <- getyrres(1945,c("s","rv","k","v","rfb","dkp","ds"))
+yr1947 <- getyrres(1947,c("s","rv","k","v","rfb","dkp","ds","ufp"))
+yr1950 <- getyrres(1950,c("s","rv","k","v","rfb","dkp","ufp"))
+
+votes <- bind_rows(yr1939,yr1943,yr1945,yr1947,yr1950)
+
+write_csv(votes,"votes.csv")
