@@ -5,7 +5,9 @@ library(magick)
 library(stringr)
 library(tidyverse)
 
-lettervec <- 
+# 1939-1950 -----
+
+# source: https://danmarkshistorien.dk/leksikon-og-kilder/vis/materiale/valgtema-besaettelse-og-befrielse-1939-1950/
 
 getyrres <- function(year,lettervec){
   
@@ -52,6 +54,40 @@ yr1945 <- getyrres(1945,c("s","rv","k","v","rfb","dkp","ds"))
 yr1947 <- getyrres(1947,c("s","rv","k","v","rfb","dkp","ds","ufp"))
 yr1950 <- getyrres(1950,c("s","rv","k","v","rfb","dkp","ufp"))
 
-votes <- bind_rows(yr1939,yr1943,yr1945,yr1947,yr1950)
+#pre-1939 elections ----
+
+#1935
+#source: https://www.dst.dk/Site/Dst/Udgivelser/GetPubFile.aspx?id=20219&sid=valg1935 , p. 21
+yr1935 <- tibble(letter=c("dkp","n","rfb","ff","k","rv","sp","s","v"),
+                 partyvotes=c(27135,16257,41199,52793,293393,151507,12617,759102,292247)) %>% 
+  pivot_wider(names_from = letter,values_from=partyvotes,names_prefix="party_") %>% 
+  mutate(total_valid=(1651132-4694),
+         electorate=2044997,
+         year=1935) %>% 
+  dplyr::select(year,everything())
+
+#1932
+#source: https://www.dst.dk/Site/Dst/Udgivelser/GetPubFile.aspx?id=20220&sid=valg1932 , p. 15
+yr1932 <- tibble(letter=c("dkp","rfb","k","rv","sp","s","v"),
+                 partyvotes=c(17179,41238,289531,145220,9868,660839,381862)) %>% 
+  pivot_wider(names_from = letter,values_from=partyvotes,names_prefix="party_") %>% 
+  mutate(total_valid=(1551121-4039),
+         electorate=1902835,
+         year=1932) %>% 
+  dplyr::select(year,everything())
+
+#1929
+#source: https://www.dst.dk/Site/Dst/Udgivelser/GetPubFile.aspx?id=20220&sid=valg1932 , p. 15
+yr1929 <- tibble(letter=c("dkp","rfb","k","rv","sp","s","v"),
+                 partyvotes=c(3656,25810,233935,151746,9787,593191,402121)) %>% 
+  pivot_wider(names_from = letter,values_from=partyvotes,names_prefix="party_") %>% 
+  mutate(total_valid=(1423150-2904),
+         electorate=1786092,
+         year=1929) %>% 
+  dplyr::select(year,everything())
+
+# combine -----
+
+votes <- bind_rows(yr1929,yr1932,yr1935,yr1939,yr1943,yr1945,yr1947,yr1950)
 
 write_csv(votes,"votes.csv")
