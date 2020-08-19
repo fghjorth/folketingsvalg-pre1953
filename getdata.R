@@ -86,8 +86,41 @@ yr1929 <- tibble(letter=c("dkp","rfb","k","rv","sp","s","v"),
          year=1929) %>% 
   dplyr::select(year,everything())
 
+#1926
+#source: https://www.dst.dk/Site/Dst/Udgivelser/GetPubFile.aspx?id=20222&sid=valg1926
+yr1926 <- tibble(letter=c("dkp","rfb","k","rv","ssp","sp","s","v"),
+                 partyvotes=c(5678,17463,275793,150931,2117,10422,497106,378137)) %>% 
+  pivot_wider(names_from = letter,values_from=partyvotes,names_prefix="party_") %>% 
+  mutate(total_valid=(1341226-3576),
+         electorate=1742604,
+         year=1926) %>% 
+  dplyr::select(year,everything())
+
+#1924
+#source: https://www.dst.dk/Site/Dst/Udgivelser/GetPubFile.aspx?id=20223&sid=valg1924
+yr1924 <- tibble(letter=c("k","rv","sp","s","v"),
+                 partyvotes=c(242955,166476,7715,469949,362682)) %>% 
+  pivot_wider(names_from = letter,values_from=partyvotes,names_prefix="party_") %>% 
+  mutate(total_valid=(1287084-4147),
+         electorate=1637564,
+         year=1924) %>% 
+  dplyr::select(year,everything())
+
+#1920
+#source: https://www.dst.dk/Site/Dst/Udgivelser/GetPubFile.aspx?id=20224&sid=valg1920
+yr1920 <- tibble(letter=c("ep","k","rv","s","v"),
+                 partyvotes=c(29464,201499,122160,300345,350563)) %>% 
+  pivot_wider(names_from = letter,values_from=partyvotes,names_prefix="party_") %>% 
+  mutate(total_valid=(1027468-3082),
+         electorate=1274377,
+         year=1920) %>% 
+  dplyr::select(year,everything())
+
 # combine -----
 
-votes <- bind_rows(yr1929,yr1932,yr1935,yr1939,yr1943,yr1945,yr1947,yr1950)
+votes <- bind_rows(yr1920,yr1924,yr1926,yr1929,
+                   yr1932,yr1935,yr1939,
+                   yr1943,yr1945,yr1947,
+                   yr1950)
 
 write_csv(votes,"votes.csv")
